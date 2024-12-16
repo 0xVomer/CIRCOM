@@ -8,15 +8,15 @@ build = "build.rs"
 [build-dependencies]
 rustc-hex = "2.0.1"
 lalrpop = { version = "0.19.9", features = ["lexer"] }
-num-bigint-dig = "0.6.0"
-num-traits = "0.2.6"
+num-bigint-dig = "0.8.4"
+num-traits = "0.2.19"
 
 [dependencies]
 program_structure = {path = "../program_structure"}
 lalrpop-util = { version="0.19.9",  features = ["lexer"]}
 regex = "1.1.2"
 rustc-hex = "2.0.1"
-num-bigint-dig = "0.6.0"
-num-traits = "0.2.6"
-serde = "1.0.82"
-serde_derive = "1.0.91"
+num-bigint-dig = "0.8.4"
+num-traits = "0.2.19"
+serde = "1.0.210"
+serde_derive =  "1.0.210"
