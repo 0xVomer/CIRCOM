@@ -1,3 +1,35 @@
+```haskell
+# #########################################################################
+# #                                                                       #
+# #                                                                       #
+# #   ▄████████  ▄█     ▄████████  ▄████████  ▄██████▄     ▄▄▄▄███▄▄▄▄    #
+# #  ███    ███ ███    ███    ███ ███    ███ ███    ███  ▄██▀▀▀███▀▀▀██▄  #
+# #  ███    █▀  ███▌   ███    ███ ███    █▀  ███    ███  ███   ███   ███  #
+# #  ███        ███▌  ▄███▄▄▄▄██▀ ███        ███    ███  ███   ███   ███  #
+# #  ███        ███▌ ▀▀███▀▀▀▀▀   ███        ███    ███  ███   ███   ███  #
+# #  ███    █▄  ███  ▀███████████ ███    █▄  ███    ███  ███   ███   ███  #
+# #  ███    ███ ███    ███    ███ ███    ███ ███    ███  ███   ███   ███  #
+# #  ████████▀  █▀     ███    ███ ████████▀   ▀██████▀    ▀█   ███   █▀   #
+# #                    ███    ███                                         #
+# #                                                                       #
+# #                                                                       #
+# #########################################################################
+#
+# " Lord Circom established a cryptic set of rules only spoken of in whispers.
+#   It governed the use of Veritas Mist and the exchange of zero-knowledge proofs
+#   that were referred to as GROTH16 or PLONK Proofs.
+#   Users of Veritas would mentally construct intricate circuits of logic,
+#   proving their claims while revealing nothing. " - PKD.
+#
+# Long Live Circom !
+```
+
+> [!Important]
+>
+> This fork contains code that were written to supports parsing & compilation of
+> circom circuits & witness calculation on the fly via FFI bindings with minimal
+> changes made to the original codebase.
+
 <div align="center">
 <img src="mkdocs/docs/circom-logo-black.png" width="300"/>
 </div>
@@ -21,9 +53,10 @@ Circom aims to provide developers a holistic framework to construct arithmetic c
 
 Circom language reference can be found at [circom language reference](https://docs.circom.io/circom-language/signals).
 
-At this time there are two available syntax highlighters: [circom Visual Studio Code highlight syntax](https://github.com/iden3/circom-highlighting-vscode) and  [circom Vim highlight syntax](https://github.com/iden3/vim-circom-syntax).
+At this time there are two available syntax highlighters: [circom Visual Studio Code highlight syntax](https://github.com/iden3/circom-highlighting-vscode) and [circom Vim highlight syntax](https://github.com/iden3/vim-circom-syntax).
 
 # Documentation
+
 All documentation is available in [circom 2 Documentation](https://docs.circom.io/), we encourage you to read it. If you are new start with the [Getting started section](https://docs.circom.io/getting-started/installation/).
 Basic background on Zero-knowledge proofs can be found on [Background section](https://docs.circom.io/background/background/).
 
@@ -36,36 +69,36 @@ Refer to [Installation section](https://docs.circom.io/getting-started/installat
 The previous `circom 1` compiler written in Javascript is deprecated, but [circom 1 repository](https://github.com/iden3/circom_old) is still available.
 
 # Community
+
 Thank you for considering contributing to the circom & snarkjs framework!
 
 As the `circom` and `snarkjs` community grows new tools, circuits, or projects have appeared. Here we link some of them:
 
 CIRCUITS
 
-+ [0xPARC circom ECDSA circuit](https://github.com/0xPARC/circom-ecdsa)
+-   [0xPARC circom ECDSA circuit](https://github.com/0xPARC/circom-ecdsa)
 
 TOOLS
 
-+ [zkREPL an online playground for zk circuits](https://zkrepl.dev)
+-   [zkREPL an online playground for zk circuits](https://zkrepl.dev)
 
-+ [Shield: a development framework for circom developers](https://xord.notion.site/SHIELD-5306223ca4f745d19f54b9a5f4004cd6)
+-   [Shield: a development framework for circom developers](https://xord.notion.site/SHIELD-5306223ca4f745d19f54b9a5f4004cd6)
 
-+ [Circomspect: a static analyzer for detecting common vulnerabilities in circom circuits that extends the checks performed by the circom flag --inspect](https://github.com/trailofbits/circomspect)
+-   [Circomspect: a static analyzer for detecting common vulnerabilities in circom circuits that extends the checks performed by the circom flag --inspect](https://github.com/trailofbits/circomspect)
 
-+ [CIVER: a static analyzer for specifying and verifying circom circuits (including weak-safety checks)](https://github.com/costa-group/circom_civer)
+-   [CIVER: a static analyzer for specifying and verifying circom circuits (including weak-safety checks)](https://github.com/costa-group/circom_civer)
 
-+ [Ecne: a static analyzer verifying weak and strong safety for circom circuits](https://github.com/franklynwang/EcneProject)
+-   [Ecne: a static analyzer verifying weak and strong safety for circom circuits](https://github.com/franklynwang/EcneProject)
 
-+ [PICUS: a static analyzer for verifying weak and strong safety for circom circuits](https://github.com/Veridise/Picus)
+-   [PICUS: a static analyzer for verifying weak and strong safety for circom circuits](https://github.com/Veridise/Picus)
 
-+ [Hardhat-zkit: the ultimate typescript environment for circom development](https://github.com/dl-solarity/hardhat-zkit)
-+ 
-+ [Circomkit: a testing & development environment for circom](https://github.com/erhant/circomkit)
+-   [Hardhat-zkit: the ultimate typescript environment for circom development](https://github.com/dl-solarity/hardhat-zkit)
+-
+-   [Circomkit: a testing & development environment for circom](https://github.com/erhant/circomkit)
 
 More information about the notions of weak and strong safety in circom circuits [here](https://ieeexplore.ieee.org/document/10002421).
 
 [ico-website]: https://img.shields.io/website?up_color=blue&up_message=circom&url=https%3A%2F%2Fiden3.io%2Fcircom
 [ico-telegram]: https://img.shields.io/badge/@iden3-2CA5E0.svg?style=flat-square&logo=telegram&label=Telegram
-
 [link-website]: https://iden3.io/circom
 [link-telegram]: https://t.me/iden3io
