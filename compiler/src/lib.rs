@@ -7,4 +7,4 @@ pub extern crate num_traits;
 
 pub mod compiler_interface;
 pub mod hir;
-mod translating_traits;
+pub mod translating_traits;

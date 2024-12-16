@@ -13,18 +13,40 @@ mod syntax_sugar_remover;
 
 use include_logic::{FileStack, IncludesGraph};
 use num_bigint::BigInt;
-use program_structure::ast::{produce_compiler_version_report, produce_report, produce_report_with_message, produce_version_warning_report, Expression};
+use program_structure::ast::{
+    produce_compiler_version_report, produce_report, produce_report_with_message,
+    produce_version_warning_report, Expression,
+};
 use program_structure::error_code::ReportCode;
 use program_structure::error_definition::ReportCollection;
 use program_structure::error_definition::Report;
-use program_structure::file_definition::{FileLibrary};
+use program_structure::file_definition::{FileID, FileLibrary};
 use program_structure::program_archive::ProgramArchive;
 use std::path::{PathBuf, Path};
-use syntax_sugar_remover::{apply_syntactic_sugar};
+use syntax_sugar_remover::apply_syntactic_sugar;
 
 use std::str::FromStr;
 
 pub type Version = (usize, usize, usize);
+
+use program_structure::ast::AST;
+pub fn generate_ast(file_id: FileID, src: &str, field: &BigInt) -> Result<AST, ReportCollection> {
+    match parser_logic::parse_file(src, file_id, field) {
+        Ok(ast) => Ok(ast),
+        Err(e) => Err(e),
+    }
+}
+
+pub fn apply_sugar(program_archive: &mut ProgramArchive) -> Result<(), ReportCollection> {
+    match apply_syntactic_sugar(program_archive) {
+        Ok(_) => Ok(()),
+        Err(e) => {
+            let mut reports = Vec::new();
+            reports.push(e);
+            Err(reports)
+        }
+    }
+}
 
 pub fn find_file(
     crr_file: PathBuf,
@@ -61,7 +83,7 @@ pub fn run_parser(
     file: String,
     version: &str,
     link_libraries: Vec<PathBuf>,
-    field: &BigInt,     
+    field: &BigInt,
 ) -> Result<(ProgramArchive, ReportCollection), (FileLibrary, ReportCollection)> {
     let mut file_library = FileLibrary::new();
     let mut definitions = Vec::new();
@@ -79,8 +101,8 @@ pub fn run_parser(
             return Result::Err((file_library.clone(), reports));
         }
         let file_id = file_library.add_file(path.clone(), src.clone());
-        let program =
-            parser_logic::parse_file(&src, file_id, field).map_err(|e| (file_library.clone(), e))?;
+        let program = parser_logic::parse_file(&src, file_id, field)
+            .map_err(|e| (file_library.clone(), e))?;
         if let Some(main) = program.main_component {
             main_components.push((file_id, main, program.custom_gates));
         }
@@ -112,7 +134,7 @@ pub fn run_parser(
     }
 
     if main_components.len() == 0 {
-        let report = produce_report(ReportCode::NoMainFoundInProject,0..0, 0);
+        let report = produce_report(ReportCode::NoMainFoundInProject, 0..0, 0);
         warnings.push(report);
         Err((file_library, warnings))
     } else if main_components.len() > 1 {
@@ -131,7 +153,7 @@ pub fn run_parser(
             )
         ).collect();
         if errors.len() > 0 {
-            warnings.append(& mut errors);
+            warnings.append(&mut errors);
             Err((file_library, warnings))
         } else {
             let (main_id, main_component, custom_gates) = main_components.pop().unwrap();
@@ -149,11 +171,12 @@ pub fn run_parser(
                 }
                 Ok(mut program_archive) => {
                     let lib = program_archive.get_file_library().clone();
-                    let program_archive_result = apply_syntactic_sugar( &mut program_archive);
+                    let program_archive_result = apply_syntactic_sugar(&mut program_archive);
                     match program_archive_result {
                         Result::Err(v) => {
                             warnings.push(v);
-                            Result::Err((lib,warnings))},
+                            Result::Err((lib, warnings))
+                        }
                         Result::Ok(_) => Ok((program_archive, warnings)),
                     }
                 }
@@ -162,17 +185,26 @@ pub fn run_parser(
     }
 }
 
-fn produce_report_with_main_components(main_components: Vec<(usize, (Vec<String>, Expression), bool)>) -> Report {
+fn produce_report_with_main_components(
+    main_components: Vec<(usize, (Vec<String>, Expression), bool)>,
+) -> Report {
     let mut j = 0;
     let mut r = produce_report(ReportCode::MultipleMain, 0..0, 0);
-    for (i,exp,_) in main_components{
+    for (i, exp, _) in main_components {
         if j > 0 {
-            r.add_secondary(exp.1.get_meta().location.clone(), i, Option::Some("Here it is another main component".to_string()));
+            r.add_secondary(
+                exp.1.get_meta().location.clone(),
+                i,
+                Option::Some("Here it is another main component".to_string()),
+            );
+        } else {
+            r.add_primary(
+                exp.1.get_meta().location.clone(),
+                i,
+                "This is a main component".to_string(),
+            );
         }
-        else {
-            r.add_primary(exp.1.get_meta().location.clone(), i, "This is a main component".to_string());
-        }
-        j+=1;
+        j += 1;
     }
     r
 }
@@ -210,8 +242,7 @@ fn check_number_version(
             Err(produce_compiler_version_report(file_path, required_version, version_compiler))
         }
     } else {
-        let report =
-            produce_version_warning_report(file_path, version_compiler);
+        let report = produce_version_warning_report(file_path, version_compiler);
         Ok(vec![report])
     }
 }
